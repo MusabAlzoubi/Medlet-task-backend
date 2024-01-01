@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+
+Route::get('c', function () {
+    return view('course.index');
+});
+
+use App\Http\Controllers\CourseController;
+
+// Resourceful routes for courses
+Route::resource('courses', CourseController::class);
