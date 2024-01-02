@@ -21,6 +21,8 @@
                         <div class="mb-3 form-password-toggle">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password">{{ __('Password') }}</label>
+                                {{-- <a href="{{ route('password.request') }}"> --}}
+                                    <small>{{ __('Forgot Password?') }}</small>
                                 </a>
                             </div>
                             <div class="input-group input-group-merge">
@@ -43,7 +45,13 @@
                         </div>
                     </form>
 
-                   
+                    <p class="text-center">
+                        <span>{{ __('New on our platform?') }}</span>
+                        {{-- <a href="{{ route('register') }}"> --}}
+                            <span>{{ __('Create an account') }}</span>
+                        </a>
+                    </p>
+
                     <div class="divider my-4">
                         <div class="divider-text">{{ __('or') }}</div>
                     </div>
