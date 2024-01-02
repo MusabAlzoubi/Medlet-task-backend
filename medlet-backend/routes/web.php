@@ -17,12 +17,32 @@ Route::get('/', function () {
     return view('index');
 });
 
+// routes/web.php
 
-Route::get('c', function () {
-    return view('course.index');
-});
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\Auth\AdminUserController;
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+});
+Route::resource('adminusers', AdminUserController::class);
+
+
+Route::middleware(['auth', 'role:instructor'])->group(function () {
+    // تحديد الطرق التي يمكن الوصول إليها فقط بواسطة المعلمين
+});
+
+Route::middleware(['auth', 'role:student'])->group(function () {
+    // تحديد الطرق التي يمكن الوصول إليها فقط بواسطة الطلاب
+});
 
 // Resourceful routes for courses
 Route::resource('courses', CourseController::class);

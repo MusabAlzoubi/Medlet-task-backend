@@ -1473,9 +1473,16 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
-                                                <i class="bx bx-power-off me-2"></i>
-                                                <span class="align-middle">Log Out</span>
+                                            @if(Auth::check())
+    <form method="post" action="{{ route('logout') }}" class="d-inline">
+        @csrf
+        <button  type="submit" class="dropdown-item"><i class="bx bx-power-off me-2"></i>
+            <span class="align-middle">Log Out</span></button>
+    </form>
+@endif
+
+
+                                                
                                             </a>
                                         </li>
                                     </ul>
