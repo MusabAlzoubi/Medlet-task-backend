@@ -45,7 +45,7 @@
                   <td>{{ $course->students_in_group }}</td>
                   <td>
                       @if($course->picture)
-                          <img src="{{ asset($course->picture) }}" alt="Course Picture" class="rounded-circle" style="max-width: 50px; max-height: 50px;">
+                          <img src="{{ asset('images/Course/'.$course->picture) }}" alt="Course Picture" class="rounded-circle" style="max-width: 50px; max-height: 50px;">
                       @else
                           No Picture
                       @endif

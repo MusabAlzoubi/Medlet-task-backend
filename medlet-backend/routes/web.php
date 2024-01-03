@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\Auth\AdminUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,38 +20,39 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
-
-// routes/web.php
-
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\RegisterController;
-
+})->name('home');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'create'])->name('register');
-
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
 
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\Auth\AdminUserController;
+// Auth
+Route::middleware(['auth'])->group(function () {
+    // Show user profile
+    Route::get('/user/profile', [UserController::class, 'showProfile'])->name('user.profile');
+    // Update user profile
+    Route::put('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.update-profile');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+});
+
+
+
+
+// Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('courses', CourseController::class);
+    Route::resource('adminusers', AdminUserController::class);
+
 });
-Route::resource('adminusers', AdminUserController::class);
 
-
+// Instructor
 Route::middleware(['auth', 'role:instructor'])->group(function () {
-    // تحديد الطرق التي يمكن الوصول إليها فقط بواسطة المعلمين
+
+    Route::resource('courses', CourseController::class);
+
 });
 
-Route::middleware(['auth', 'role:student'])->group(function () {
-    // تحديد الطرق التي يمكن الوصول إليها فقط بواسطة الطلاب
-});
 
-// Resourceful routes for courses
-Route::resource('courses', CourseController::class);
+

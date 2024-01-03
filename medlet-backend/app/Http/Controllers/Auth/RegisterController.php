@@ -47,34 +47,44 @@ class RegisterController extends Controller
     }
 
     protected function create(Request $request)
-    {
-        $data = $request->all();
+{
+    $data = $request->all();
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'] ?? null,
-            'gender' => $data['gender'] ?? null,
-            'image' => $data['image'] ?? null,
-            'password' => Hash::make($data['password']),
-            'role_id' => ($data['role'] == 'student') ? 3 : 2,
-        ]);
+    $userData = [
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'phone' => $data['phone'] ?? null,
+        'gender' => $data['gender'] ?? null,
+        'password' => Hash::make($data['password']),
+        'role_id' => ($data['role'] == 'student') ? 3 : 2,
+    ];
 
-        if ($data['role'] == 'student') {
-            Student::create([
-                'user_id' => $user->id,
-                'full_name_arabic' => $data['full_name_arabic'] ?? null,
-                'full_name_english' => $data['full_name_english'] ?? null,
-                'university_id' => $data['university_id'] ?? null,
-                'gpa' => $data['gpa'] ?? null,
-            ]);
-        } elseif ($data['role'] == 'instructor') {
-            Instructor::create([
-                'user_id' => $user->id,
-                'specialty' => $data['specialty'] ?? null,
-            ]);
-        }
-
-        return ;
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move('images/user', $imageName);
+        $userData['image'] = $imageName;
     }
+
+    $user = User::create($userData);
+
+    if ($data['role'] == 'student') {
+        Student::create([
+            'user_id' => $user->id,
+            'full_name_arabic' => $data['full_name_arabic'] ?? null,
+            'full_name_english' => $data['full_name_english'] ?? null,
+            'university_id' => $data['university_id'] ?? null,
+            'gpa' => is_numeric($data['gpa']) ? $data['gpa'] : null,
+        ]);
+    } elseif ($data['role'] == 'instructor') {
+        Instructor::create([
+            'user_id' => $user->id,
+            'specialty' => $data['specialty'] ?? null,
+        ]);
+    }
+
+    return redirect()->route('/'); 
+}
+
 }

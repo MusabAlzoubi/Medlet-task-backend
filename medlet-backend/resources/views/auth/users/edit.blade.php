@@ -25,7 +25,7 @@
                 @endif
 
                 <!-- User update form -->
-                <form action="{{ route('adminusers.update', $user->id) }}" method="POST" class="needs-validation" novalidate>
+                <form action="{{ route('adminusers.update', $user->id) }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
                     @method('PUT') <!-- Use the PUT method for updates -->
 

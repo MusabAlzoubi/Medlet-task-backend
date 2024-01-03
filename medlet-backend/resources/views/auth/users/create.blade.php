@@ -27,7 +27,7 @@
                         @endif
 
                         <!-- User creation form -->
-                        <form action="{{ route('adminusers.store') }}" method="POST" class="needs-validation" novalidate>
+                        <form action="{{ route('adminusers.store') }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                             @csrf
 
                             <!-- User Name -->

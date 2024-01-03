@@ -36,10 +36,19 @@ class CourseController extends Controller
             'students_in_group' => 'required|integer',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         // Create a new course
-        Course::create($request->all());
-
+        $course = Course::create($request->all());
+    
+        // Image upload
+        if ($request->hasFile('picture')) {
+            $image = $request->file('picture');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('images/Course', $imageName);
+            $course->picture = $imageName;
+            $course->save();
+        }
+    
         return redirect()->route('courses.index')->with('success', 'Course added successfully');
     }
 
@@ -66,15 +75,26 @@ class CourseController extends Controller
             'students_in_group' => 'required|integer',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         // Find the course by ID
         $course = Course::findOrFail($id);
-
+    
         // Update the course
         $course->update($request->all());
-
+    
+        // Image upload
+        if ($request->hasFile('picture')) {
+            $image = $request->file('picture');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('images/Course', $imageName);
+            $course->picture = $imageName;
+            $course->save();
+        }
+    
         return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }
+    
+    
 
     public function destroy($id)
     {
