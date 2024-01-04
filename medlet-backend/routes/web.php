@@ -42,16 +42,13 @@ Route::middleware(['auth'])->group(function () {
 
 // Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::resource('courses', CourseController::class);
     Route::resource('adminusers', AdminUserController::class);
 
 });
 
 // Instructor
-Route::middleware(['auth', 'role:instructor'])->group(function () {
-
+Route::middleware(['auth', 'role:admin,instructor'])->group(function () {
     Route::resource('courses', CourseController::class);
-
 });
 
 

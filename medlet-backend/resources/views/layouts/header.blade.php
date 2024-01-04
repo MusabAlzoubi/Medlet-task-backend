@@ -109,7 +109,7 @@
 
 
                 <div class="app-brand demo ">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="{{ route('home') }}" class="app-brand-link">
                         <span class="app-brand-logo demo">
 <svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>icon</title>
@@ -142,7 +142,7 @@
                         <span class="app-brand-text demo menu-text fw-bold ms-2">Frest</span>
                     </a>
 
-                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                    <a href="{{ route('home') }}" class="layout-menu-toggle menu-link text-large ms-auto">
                         <i class="bx menu-toggle-icon d-none d-xl-block fs-4 align-middle"></i>
                         <i class="bx bx-x d-block d-xl-none bx-sm align-middle"></i>
                     </a>
@@ -156,12 +156,14 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboards -->
-                        <a href="{{route('home')}}" class="menu-link menu-toggle">
+                    <li>
+                        <a href="{{ route('home') }}" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-grid-alt"></i> 
-                            <div >Home</div>
+                            <div>Home</div>
                         </a>
                     </li>
                 </ul>
+                
                 
                 @php
                     $userRole = Auth::user()->role->id ?? null;
@@ -177,12 +179,12 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item active">
-                                <a href="{{route('adminuser.index')}}" class="menu-link">
+                                <a href="{{route('adminusers.index')}}" class="menu-link">
                                     <div>Show</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('adminuser.create')}}" class="menu-link">
+                                <a href="{{route('adminusers.create')}}" class="menu-link">
                                     <div >Create</div>
                                 </a>
                             </li>
@@ -199,12 +201,12 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item active">
-                                <a href="{{route('course.index')}}" class="menu-link">
+                                <a href="{{route('courses.index')}}" class="menu-link">
                                     <div >Show</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('course.create')}}" class="menu-link">
+                                <a href="{{route('courses.create')}}" class="menu-link">
                                     <div >Create</div>
                                 </a>
                             </li>
@@ -223,12 +225,12 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item active">
-                                <a href="{{route('course.index')}}" class="menu-link">
+                                <a href="{{route('courses.index')}}" class="menu-link">
                                     <div >Show</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{route('course.create')}}" class="menu-link">
+                                <a href="{{route('courses.create')}}" class="menu-link">
                                     <div >Create</div>
                                 </a>
                             </li>
@@ -379,7 +381,8 @@
                                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                                 <div class="avatar avatar-online">
                                                     @if(Auth::user()->image)
-                                                    <img src="{{asset('images/user').Auth::user()->image}}" alt class="rounded-circle">
+                                                    <img src="  {{ asset('images/user/' . Auth::user()->image) }}
+                                                    " alt class="rounded-circle">
                                                 @else
                                                 <img src="{{asset('assets/img/avatars/1.png')}}" alt class="rounded-circle">
 
@@ -393,7 +396,8 @@
                                                         <div class="d-flex">
                                                             <div class="flex-shrink-0 me-3">
                                                                 <div class="avatar avatar-online">
-                                                                    <img src="assets/img/avatars/1.png" alt class="rounded-circle">
+                                                                    <img src="                                                    {{ asset('images/user/' . Auth::user()->image) }}
+                                                                    " alt class="rounded-circle">
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1">
